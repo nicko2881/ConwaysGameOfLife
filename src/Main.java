@@ -45,7 +45,7 @@ public class Main {
                 }
                 else if (args[i].split("=")[0].toLowerCase().equals("p")) {
                     population = args[i].split("=")[1];
-                    System.out.println("population: " + population);
+                    // System.out.println("population: " + population);
                 }
                 else if (args[i].split("=")[0].toLowerCase().equals("g")) {
                     generations = Integer.parseInt(args[i].split("=")[1]);
@@ -64,17 +64,32 @@ public class Main {
             System.out.println(e.getMessage());
             return;
         }
-
-        // Population separation
-        String[] populationRows = population.split("#")[0].split(",");
-        System.out.println("Population: " + populationRows[0]);
-
         // Grid
-        int[][] board =  new int[widht][height];
-        /* for (int i = 0; i < widht; i++) {
-            for (int j = 0; j < height; j++) {
-                board[i][j] = ;
+        String[][] grid = new String[widht][height];
+
+        // Need to think a way to find the largest row, so if the others row are shorter the rest of the characters is a dead cell, for example: 110#1110#10111
+        int populationRowLength = population.split("#")[0].length();
+        for  (int i = 0; i < populationRowLength; i++) {
+
+        }
+
+
+        try {
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < widht; j++) {
+                    grid[j][i] = "0";
+                    for (int k = 0; k < populationRowLength; k++) {
+                        if () {
+                        }
+                    }
+                    System.out.print(grid[j][i]);
+                }
+                System.out.println();
             }
-        }*/
+        }
+
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
     }
 }
