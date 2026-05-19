@@ -69,8 +69,15 @@ public class Main {
 
         // Need to think a way to find the largest row, so if the others row are shorter the rest of the characters is a dead cell, for example: 110#1110#10111
         int populationRowLength = population.split("#")[0].length();
-        for  (int i = 0; i < populationRowLength; i++) {
 
+        int[][] populationGrid;
+
+        for (int i = 0; i < population.split("#")[0].length(); i++) {
+            for (int j = 0; j < population.split("#")[0].length(); j++) {
+                grid[i][j] = population.split("#")[0];
+                System.out.println(grid[i][j]);
+            }
+            System.out.println();
         }
 
 
@@ -78,16 +85,11 @@ public class Main {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < widht; j++) {
                     grid[j][i] = "0";
-                    for (int k = 0; k < populationRowLength; k++) {
-                        if () {
-                        }
-                    }
                     System.out.print(grid[j][i]);
                 }
                 System.out.println();
             }
         }
-
         catch (Exception e) {
             System.out.println(e.getMessage());
         }
