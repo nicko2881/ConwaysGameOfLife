@@ -67,20 +67,18 @@ public class Main {
         // Grid
         String[][] grid = new String[widht][height];
 
-        // Need to think a way to find the largest row, so if the others row are shorter the rest of the characters is a dead cell, for example: 110#1110#10111
-        int populationRowLength = population.split("#")[0].length();
+        // Stores the max length of items in population
+        int populationMaxLength = 0;
 
-        int[][] populationGrid;
-
-        for (int i = 0; i < population.split("#")[0].length(); i++) {
-            for (int j = 0; j < population.split("#")[0].length(); j++) {
-                grid[i][j] = population.split("#")[0];
-                System.out.println(grid[i][j]);
+        // This will give us the max number of elements on each sub element of each array
+        // So if one of the elements has white spaces we can replace it with a dead cell or "0"
+        for (String populations : population.split("#")) {
+            if (populations.length() > populationMaxLength) {
+                populationMaxLength = populations.length();
             }
-            System.out.println();
         }
 
-
+        // This block prints the grid with the input values
         try {
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < widht; j++) {
