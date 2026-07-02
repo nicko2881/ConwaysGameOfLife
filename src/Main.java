@@ -1,5 +1,3 @@
-import java.util.Random;
-
 public class Main {
     public static void main(String[] args) {
         // Parameters:
@@ -8,7 +6,7 @@ public class Main {
 
         // w= "width", w only allows int and must be either 10, 20 and 40 only
         // h= "height", h only allows int and must be either 10, 20, 40 or 80 only
-        int  widht = 0;
+        int width = 0;
         int height = 0;
 
         // g= "generations", is the number of generations to reproduce, only int values >=0
@@ -32,60 +30,150 @@ public class Main {
 
             for (int i = 0; i < args.length; i++) {
                 if (args[i].split("=")[0].toLowerCase().equals("w")) {
-                    widht = Integer.parseInt(args[i].split("=")[1]);
-                    // System.out.println("widht: " + widht);
-                }
-                else if (args[i].split("=")[0].toLowerCase().equals("h")) {
+                    width = Integer.parseInt(args[i].split("=")[1]);
+                    // System.out.println("width: " + width);
+                } else if (args[i].split("=")[0].toLowerCase().equals("h")) {
                     height = Integer.parseInt(args[i].split("=")[1]);
                     // System.out.println("height: " + height);
-                }
-                else if (args[i].split("=")[0].toLowerCase().equals("s")) {
+                } else if (args[i].split("=")[0].toLowerCase().equals("s")) {
                     speed = Integer.parseInt(args[i].split("=")[1]);
                     // System.out.println("speed: " + speed);
-                }
-                else if (args[i].split("=")[0].toLowerCase().equals("p")) {
+                } else if (args[i].split("=")[0].toLowerCase().equals("p")) {
                     population = args[i].split("=")[1];
                     // System.out.println("population: " + population);
-                }
-                else if (args[i].split("=")[0].toLowerCase().equals("g")) {
+                } else if (args[i].split("=")[0].toLowerCase().equals("g")) {
                     generations = Integer.parseInt(args[i].split("=")[1]);
                     // System.out.println("generations: " + generations);
-                }
-                else if (args[i].split("=")[0].toLowerCase().equals("n")) {
+                } else if (args[i].split("=")[0].toLowerCase().equals("n")) {
                     neighborhood = Integer.parseInt(args[i].split("=")[1]);
                     // System.out.println("neighborhood: " + neighborhood);
-                }
-                else {
+                } else {
                     System.out.println("Invalid argument!");
                 }
             }
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
             System.out.println(e.getMessage());
             return;
         }
         // Grid
-        String[][] grid = new String[widht][height];
+        char[][] grid = new char[width][height];
+
 
         // Stores the max length of items in population
         int populationMaxLength = 0;
-
         // This will give us the max number of elements on each sub element of each array
         // So if one of the elements has white spaces we can replace it with a dead cell or "0"
+
         for (String populations : population.split("#")) {
             if (populations.length() > populationMaxLength) {
                 populationMaxLength = populations.length();
             }
         }
 
+        // This code block gives us the lenght of the longest population sub group
+        String[] populationParts = population.split("#");
+        String longestPopulationGroup = populationParts[0];
+        for (String populationMember : population.split("#")) {
+            if (populationMember.length() > longestPopulationGroup.length()) {
+                longestPopulationGroup = populationMember;
+            }
+        }
+
+        // I need to check if the the largest population part is greater than the grid rows to check if the populations will fit in the grid
+        if (longestPopulationGroup.length() > width) {
+            System.out.println("Invalid population size, doesn't fit in grid.");
+        }
+
+        // save the population characters in a 2d string to fill the grid
+        char[][] populationGrid = new char[width][height];
+        for (int i = 0; i < populationParts.length; i++) {
+            for (int j = 0; j < populationParts[0].length(); j++) {
+                populationGrid[i][j] = populationParts[i].charAt(j);
+            }
+        }
+
         // This block prints the grid with the input values
         try {
             for (int i = 0; i < height; i++) {
-                for (int j = 0; j < widht; j++) {
-                    grid[j][i] = "0";
+                for (int j = 0; j < width; j++) {
+                    grid[j][i] = '0';
+                    for (int k = 0; k < longestPopulationGroup.length(); k++) {
+                        for (int l = 0; l < populationParts.length; l++) {
+                            if (k == i && l == j) {
+                                grid[j][i] = populationGrid[l][k];
+                            }
+                        }
+                    }
+                    // System.out.print(grid[j][i]);
+                }
+                // System.out.println();
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+
+        /*
+        // Positions around the cel
+        for (int i = 0; i < width; i++) {
+            for (int j = 0; j < height; j++) {
+                // System.out.print(grid[i][j]);
+                if (i == 2 && j == 2) {
+                    grid[i][j+1] = "*";
+                    grid[i+1][j] = "*";
+                    grid[i][j-1] = "*";
+                    grid[i-1][j] = "*";
+                    grid[i+1][j-1] = "*";
+                    grid[i-1][j+1] = "*";
+                    grid[i+1][j-1] = "*";
+                    grid[i+1][j+1] = "*";
+                    grid[i-1][j-1] = "*";
+                }
+            }
+
+
+        // Rule #1
+        try {
+            for (int i = 0; i < height; i++) {
+                for (int j = 0; j < width; j++) {
+                    if (grid[j][i] == '1') {
+                        if (grid[i][j+1] == '0' || grid[i][j-1] == '0' || grid[i+1][j] == '0' || grid[i+1][j+1] == '0' || grid[i-1][j] == '0' || grid[i+1][j-1] == '0') {
+                            grid[j][i] = '0';
+
+                        }
+                    }
                     System.out.print(grid[j][i]);
                 }
                 System.out.println();
+            }
+        }
+        catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        */
+        int startingPoint = 1;
+        try {
+            while (startingPoint <= generations) {
+                Thread.sleep(speed);
+                System.out.println("Generation: " + startingPoint);
+                // Grid
+                for (int i = 0; i < height; i++) {
+                    for (int j = 0; j < width; j++) {
+                        try {
+                            System.out.print(grid[j][i]);
+                            if (i <= 0 || j < 0 || i < i-1 || j < j-1) {
+                                if (grid[j][i] == '1' && grid[j][i+1] == '1') {
+                                    grid[j][i] = '0';
+                                }
+                            }
+                        }
+                        catch (Exception e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                    System.out.println();
+                }
+                System.out.println();
+                startingPoint++;
             }
         }
         catch (Exception e) {
