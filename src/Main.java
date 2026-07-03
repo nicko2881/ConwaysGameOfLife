@@ -94,6 +94,7 @@ public class Main {
 
         // This block prints the grid with the input values
         try {
+            System.out.println("Initial population: ");
             for (int i = 0; i < height; i++) {
                 for (int j = 0; j < width; j++) {
                     grid[j][i] = '0';
@@ -104,9 +105,9 @@ public class Main {
                             }
                         }
                     }
-                    // System.out.print(grid[j][i]);
+                    System.out.print(grid[j][i]);
                 }
-                // System.out.println();
+                System.out.println();
             }
         } catch (Exception e) {
             System.out.println(e.getMessage());
@@ -158,17 +159,25 @@ public class Main {
                 // Grid
                 for (int i = 0; i < height; i++) {
                     for (int j = 0; j < width; j++) {
-                        try {
-                            System.out.print(grid[j][i]);
-                            if (i <= 0 || j < 0 || i < i-1 || j < j-1) {
-                                if (grid[j][i] == '1' && grid[j][i+1] == '1') {
-                                    grid[j][i] = '0';
+                        for (int di = 0; di <= 1; di++) {
+                            for (int dj = 0; dj <= 1; dj++) {
+                                if (di == 0 && dj == 0) {
+                                    continue;
+                                }
+                                int ni = di + i;
+                                int nj = dj + j;
+
+                                if (ni >= 0 && ni < grid.length && nj >= 0 && nj < grid[0].length) {
+                                    if (grid[ni][nj] == '1') {
+                                        grid[ni][nj] = '0';
+                                    }
+                                    else if (grid[ni][nj] == '0') {
+                                        grid[ni][nj] = '1';
+                                    }
                                 }
                             }
                         }
-                        catch (Exception e) {
-                            System.out.println(e.getMessage());
-                        }
+                        System.out.print(grid[j][i]);
                     }
                     System.out.println();
                 }
